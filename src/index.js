@@ -29,4 +29,3 @@ function onSubmitBtnClick (e) {
             refs.galleryListEl.innerHTML = createPhotoCard(data.hits);
         });
 }
-// 
