@@ -5,13 +5,14 @@ export class PixabayApi {
   constructor() {
     this.page = 1;
     this.query = null;
+    this.per_page = 40;
   }
 
   fetchPhotos(query) {
     const search = new URLSearchParams({
         q: query,
         page: this.page,
-        per_page: 40,
+        per_page: this.per_page,
         key: this.#API_KEY,
         image_type: "photo",
         orientation: "horizontal",
@@ -36,4 +37,5 @@ export class PixabayApi {
   setQuery(query) {
     this.query = query;
   }
+
 }
