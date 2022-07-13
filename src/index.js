@@ -1,4 +1,3 @@
-// import axios from "axios";
 import{PixabayApi} from './js/pixabay-api'
 import { showAlertMessage, showInfoMessage } from './js/show-messages';
 import createPhotoCard from './template/photo-card.hbs'
@@ -39,7 +38,7 @@ function onSubmitBtnClick (e) {
             } else {
                 const { page, per_page } = pixabayApi;
 
-                console.log('onSubmitBtnClick - page:', page);
+                // console.log('onSubmitBtnClick - page:', page);
                     
                 totalPages = Math.ceil(data.totalHits / per_page);
         
@@ -65,7 +64,7 @@ function onLoadMoreBtnClick() {
         .then(data => {
             const { page, per_page } = pixabayApi;
 
-            console.log('onLoadMoreBtnClick - page:', page);
+            // console.log('onLoadMoreBtnClick - page:', page);
                     
             totalPages = Math.ceil(data.totalHits / per_page);
         

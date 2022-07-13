@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export class PixabayApi {
   #URL_BASE = 'https://pixabay.com/';
   #API_KEY = '28568095-bde867e5bbf77d76bd3de06b6';
@@ -19,15 +21,25 @@ export class PixabayApi {
         safesearch: true,
     });
 
-    return fetch(`${this.#URL_BASE}/api/?${search}`)
+    return axios
+      .get(`${this.#URL_BASE}/api/?${search}`)
       .then(response => {
-        if (!response.ok) {
-          throw new Error(response.status);
+        if (response.data.length === 0) {
+          throw new Error('Not found');
         }
-
-        return response.json();
+        return response.data;
       })
       .catch(err => console.log(err));
+    
+    // fetch(`${this.#URL_BASE}/api/?${search}`)
+    //   .then(response => {
+    //     if (!response.ok) {
+    //       throw new Error(response.status);
+    //     }
+
+    //     return response.json();
+    //   })
+    //   .catch(err => console.log(err));
     }
     
   increasePage() {
