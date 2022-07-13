@@ -1,5 +1,5 @@
 import{PixabayApi} from './js/pixabay-api'
-import { showAlertMessage, showInfoMessage, showSuccesMessage } from './js/show-messages';
+import { showAlertNoImagesMatchingMessage, showInfoMessage, showSuccesMessage, showAlertNoImputQueryMessage } from './js/show-messages';
 import createPhotoCard from './template/photo-card.hbs';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -29,18 +29,21 @@ async function onSubmitBtnClick (e) {
     e.preventDefault();
 
     const formEl = e.target.elements;
-    queryEl = formEl.searchQuery.value;
+    queryEl = (formEl.searchQuery.value).trim();
 
     pixabayApi.page = 1;
 
-    await pixabayApi.fetchPhotos(queryEl)
+    if (queryEl === '') {
+        showAlertNoImputQueryMessage();
+    } else {
+        await pixabayApi.fetchPhotos(queryEl)
         .then(data => {
             if (data.totalHits === 0) {
                 refs.galleryListEl.innerHTML = '';
 
                 refs.loadMoreBtnEl.classList.add("is-hidden");
 
-                showAlertMessage();
+                showAlertNoImagesMatchingMessage();
 
                 return;
             } else {
@@ -67,6 +70,7 @@ async function onSubmitBtnClick (e) {
 
             }
         });
+    }
 }
 
 async function onLoadMoreBtnClick() {
