@@ -1,6 +1,9 @@
 import{PixabayApi} from './js/pixabay-api'
 import { showAlertMessage, showInfoMessage, showSuccesMessage } from './js/show-messages';
-import createPhotoCard from './template/photo-card.hbs'
+import createPhotoCard from './template/photo-card.hbs';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 
 const refs = {
     searchFormEl: document.querySelector('#search-form'),
@@ -12,6 +15,11 @@ let queryEl = null;
 let totalPages = 0;
 
 const pixabayApi = new PixabayApi();
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 refs.searchFormEl.addEventListener('submit', onSubmitBtnClick);
 
@@ -37,23 +45,26 @@ async function onSubmitBtnClick (e) {
                 return;
             } else {
                 const { page, per_page } = pixabayApi;
-
+                
                 // console.log('onSubmitBtnClick - page:', page);
                 showSuccesMessage(data.totalHits);
-                    
+                
                 totalPages = Math.ceil(data.totalHits / per_page);
-        
+                
                 if (page === totalPages) {
                     refs.loadMoreBtnEl.classList.add("is-hidden");
-
+                    
                     refs.galleryListEl.innerHTML = createPhotoCard(data.hits);
-
+                    
                     return;
                 } else {
-                refs.galleryListEl.innerHTML = createPhotoCard(data.hits);
+                    refs.galleryListEl.innerHTML = createPhotoCard(data.hits);
 
-                refs.loadMoreBtnEl.classList.remove("is-hidden");
+                    lightbox.refresh();
+                    
+                    refs.loadMoreBtnEl.classList.remove("is-hidden");
                 };
+
             }
         });
 }
