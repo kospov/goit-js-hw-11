@@ -7,3 +7,7 @@ export function showAlertMessage() {
 export function showInfoMessage() {
     Notify.info("We're sorry, but you've reached the end of search results.")
 }
+
+export function showSuccesMessage(totalHits) {
+    Notify.success(`Hooray! We found ${totalHits} images.`)
+}

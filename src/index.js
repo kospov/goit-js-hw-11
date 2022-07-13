@@ -1,5 +1,5 @@
 import{PixabayApi} from './js/pixabay-api'
-import { showAlertMessage, showInfoMessage } from './js/show-messages';
+import { showAlertMessage, showInfoMessage, showSuccesMessage } from './js/show-messages';
 import createPhotoCard from './template/photo-card.hbs'
 
 const refs = {
@@ -17,7 +17,7 @@ refs.searchFormEl.addEventListener('submit', onSubmitBtnClick);
 
 refs.loadMoreBtnEl.addEventListener('click', onLoadMoreBtnClick);
 
-function onSubmitBtnClick (e) {
+async function onSubmitBtnClick (e) {
     e.preventDefault();
 
     const formEl = e.target.elements;
@@ -25,7 +25,7 @@ function onSubmitBtnClick (e) {
 
     pixabayApi.page = 1;
 
-    pixabayApi.fetchPhotos(queryEl)
+    await pixabayApi.fetchPhotos(queryEl)
         .then(data => {
             if (data.totalHits === 0) {
                 refs.galleryListEl.innerHTML = '';
@@ -39,6 +39,7 @@ function onSubmitBtnClick (e) {
                 const { page, per_page } = pixabayApi;
 
                 // console.log('onSubmitBtnClick - page:', page);
+                showSuccesMessage(data.totalHits);
                     
                 totalPages = Math.ceil(data.totalHits / per_page);
         
@@ -57,10 +58,10 @@ function onSubmitBtnClick (e) {
         });
 }
 
-function onLoadMoreBtnClick() {
+async function onLoadMoreBtnClick() {
     pixabayApi.increasePage();
 
-    pixabayApi.fetchPhotos(queryEl)
+    await pixabayApi.fetchPhotos(queryEl)
         .then(data => {
             const { page, per_page } = pixabayApi;
 
