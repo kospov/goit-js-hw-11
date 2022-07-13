@@ -87,5 +87,7 @@ async function onLoadMoreBtnClick() {
             };
             
             refs.galleryListEl.insertAdjacentHTML('beforeend', createPhotoCard(data.hits));
+
+            lightbox.refresh();
     });
 }
