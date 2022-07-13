@@ -33,7 +33,13 @@ async function onSubmitBtnClick (e) {
 
     pixabayApi.page = 1;
 
+    console.log(queryEl);
+
     if (queryEl === '') {
+        refs.galleryListEl.innerHTML = '';
+
+        refs.loadMoreBtnEl.classList.add("is-hidden");
+
         showAlertNoImputQueryMessage();
     } else {
         await pixabayApi.fetchPhotos(queryEl)
